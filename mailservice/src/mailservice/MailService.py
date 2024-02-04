@@ -3,8 +3,10 @@
 from Services.sendgrid import SendgridAddService, SendgridMailService
 from definations import (MailServiceMail, MailServiceStandardResponse,
                          DeliveryStandardResponse, DeliveryStatus)
+
+
 class MailService(object):
-    '''Sends mail using different services'''
+    '''Sends mail using different services from SUPPORTED_SERVICES'''
     SENDGRID = "sendgrid"
     MAILGUN= "mailgun"
     MANDRIL = "mandril"
@@ -23,7 +25,6 @@ class MailService(object):
             #MailService.MAILGUN: 
             #MailService.MANDRIL:
         }
-
         return MAPPER[service_name]
     
 
@@ -37,6 +38,7 @@ class MailService(object):
         
     
     def add_services(self, services_list: list) -> None:
+        '''Add requested services which are in SUPPORTED_SERVICES for mailing'''
         if not isinstance(services_list,list):
             raise TypeError(f"add_service accepts list containg services dict. Invalid argument passed: {type(services_list)}")
         
@@ -50,7 +52,7 @@ class MailService(object):
 
     
     def add_mail(self, mail_block_dict: dict) -> None:
-        '''
+        '''Add MailServiceMail model instance
         mail_block_dict = {
         "sender":"abc@gmail.com",
         "recievers":["xyz@gg.com","akf@kk.org"],
@@ -62,6 +64,7 @@ class MailService(object):
     
 
     def send_mail(self) -> MailServiceStandardResponse:
+        '''Sends mail to each recipitent using different services'''
         if self.service_processed:
             raise Exception("Mail service already called. Cannot call again.")
         
@@ -79,6 +82,6 @@ class MailService(object):
 
         return_dict["recipitents"] = recipitent_delivery_reponses
 
-        return MailServiceStandardResponse(**return_dict)
+        return MailServiceStandardResponse(**return_dict).model_dump()
 
 

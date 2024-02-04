@@ -49,6 +49,7 @@ class MailServiceMail(pydantic.BaseModel):
     
 
 class DeliveryStandardResponse(pydantic.BaseModel):
+    '''Standard response which each service should return when calling send_mail'''
     service_name: str
     delivery_status: str
     error: Optional[str] = ""
@@ -57,6 +58,7 @@ class DeliveryStandardResponse(pydantic.BaseModel):
 
 
 class MailServiceStandardResponse(pydantic.BaseModel):
+    '''Response which MailService will return'''
     sender: str
     subject: str
     text: str

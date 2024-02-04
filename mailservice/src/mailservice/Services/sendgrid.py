@@ -2,8 +2,7 @@
 
 import pydantic
 from definations import (DeliveryStandardResponse, DeliveryStatus)
-#from MailService import (DeliveryStandardResponse, DeliveryStatus)
-#from MailService
+
 # using SendGrid's Python Library
 # https://github.com/sendgrid/sendgrid-python
 from sendgrid import SendGridAPIClient
@@ -11,7 +10,7 @@ from sendgrid.helpers.mail import Mail
 
 
 class SendgridAddService(pydantic.BaseModel):
-    '''Model for keys required to Sendgrid service to mailing services'''
+    '''Model for keys required to add Sendgrid service to mailing services'''
     key: str
     service_name: str = "sendgrid"
 
@@ -24,6 +23,7 @@ class SendgridAddService(pydantic.BaseModel):
 
 
 class SendgridMailService:
+    '''Class to process and send mail using SendGrid'''
     SERVICE_NAME = "sendgrid"
     def __init__(self) -> None:
         self.response = {}
@@ -32,6 +32,7 @@ class SendgridMailService:
         self.response["error"] = ""
         
     def send_mail(self, service_details: SendgridAddService, recipitent: str ,mail: Mail ) -> DeliveryStandardResponse:
+        '''send mail to recipitent using sendgrid pip package'''
         self.response["recipitent"] = recipitent
         self.response["sender"] = mail.sender
 
@@ -56,4 +57,4 @@ class SendgridMailService:
                 self.response["delivery_status"] = DeliveryStatus.FAILED
             
         
-        return DeliveryStandardResponse(**self.response).model_dump()
+        return DeliveryStandardResponse(**self.response)
