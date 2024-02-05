@@ -36,7 +36,13 @@ class MailService(object):
             #MailService.MANDRIL : MandrilMailService
         }
         return MAPPER[service_name]()
-        
+    
+    def __validate_sending_conditions(self) -> None:
+        if self.service_processed:
+            raise Exception("Mail service already called. Cannot call again.")
+        if (not self.mail) or (not self.mail_services):
+            raise Exception("Implementation Error. Check docs to implement correctly")
+
     
     def add_services(self, services_list: list) -> None:
         '''Add requested services which are in SUPPORTED_SERVICES for mailing'''
@@ -66,8 +72,7 @@ class MailService(object):
 
     def send_mail(self) -> MailServiceStandardResponse:
         '''Sends mail to each recipitent using different services'''
-        if self.service_processed:
-            raise Exception("Mail service already called. Cannot call again.")
+        self.__validate_sending_conditions()
         
         return_dict = self.mail.model_dump(include=["sender","subject","text"])
         recipitent_delivery_reponses = []
