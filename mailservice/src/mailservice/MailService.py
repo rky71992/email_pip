@@ -1,16 +1,17 @@
 #!/usr/bin/python3
 
-from Services.sendgrid import SendgridAddService, SendgridMailService
 from definations import (MailServiceMail, MailServiceStandardResponse,
                          DeliveryStandardResponse, DeliveryStatus)
 
+from Services.sendgrid import SendgridAddService, SendgridMailService
+from Services.mailchimp import MailChimpAddService, MailChimpMailService
 
 class MailService(object):
     '''Sends mail using different services from SUPPORTED_SERVICES'''
     SENDGRID = "sendgrid"
     MAILGUN= "mailgun"
-    MANDRIL = "mandril"
-    SUPPORTED_SERVICES = [SENDGRID, MAILGUN, MANDRIL]
+    MAILCHIMP = "mailchimp"
+    SUPPORTED_SERVICES = [SENDGRID, MAILCHIMP]
     
     
     def __init__(self) -> None:
@@ -22,8 +23,8 @@ class MailService(object):
     def __add_services_mapper(self,service_name):
         MAPPER = {
             MailService.SENDGRID: SendgridAddService,
-            #MailService.MAILGUN: 
-            #MailService.MANDRIL:
+            MailService.MAILCHIMP: MailChimpAddService, 
+            #MailService.MAILGUN:
         }
         return MAPPER[service_name]
     
@@ -31,7 +32,7 @@ class MailService(object):
     def __send_mail_service_mapper(self, service_name:str):
         MAPPER = {
             MailService.SENDGRID : SendgridMailService,
-            #MailService.MAILGUN : MailgunMailService,
+            MailService.MAILCHIMP : MailChimpMailService,
             #MailService.MANDRIL : MandrilMailService
         }
         return MAPPER[service_name]()

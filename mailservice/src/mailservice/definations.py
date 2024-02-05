@@ -1,5 +1,3 @@
-
-
 import pydantic
 from email_validator import validate_email
 from typing import Optional
