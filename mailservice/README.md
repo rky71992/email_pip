@@ -1,5 +1,3 @@
-# email_pip
-
 from MailService import MailService
 a = MailService()
 a.add_services([{"id":"sendgrid","key":"some_key"}])

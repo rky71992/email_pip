@@ -1,0 +1,31 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+    "pydantic==2.6.0",
+    "email-validator==2.1.0.post1",
+    "typing-extensions==4.9.0",
+    "sendgrid==6.11.0",
+    "mailchimp-transactional==1.0.56"
+    ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mailservice_mail"
+version = "1.0.2"
+authors = [
+  { name="Rohit Yadav", email="rky71992@gmail.com" },
+]
+description = "Mail sending package which send mail using different services"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Github = "https://github.com/rky71992/email_pip"
+Issues = "https://github.com/rky71992/email_pip/issues"
