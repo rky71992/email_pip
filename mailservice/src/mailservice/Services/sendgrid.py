@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 import pydantic
-from definations import (DeliveryStandardResponse, DeliveryStatus)
+from definations import (DeliveryStandardResponse, DeliveryStatus,
+                         MailServiceMail)
 
 # using SendGrid's Python Library
 # https://github.com/sendgrid/sendgrid-python
@@ -31,7 +32,7 @@ class SendgridMailService:
         self.response["api_status_code"] = 200
         self.response["error"] = ""
         
-    def send_mail(self, service_details: SendgridAddService, recipitent: str ,mail: Mail ) -> DeliveryStandardResponse:
+    def send_mail(self, service_details: SendgridAddService, recipitent: str ,mail: MailServiceMail ) -> DeliveryStandardResponse:
         '''send mail to recipitent using sendgrid pip package'''
         self.response["recipitent"] = recipitent
         self.response["sender"] = mail.sender
@@ -49,7 +50,7 @@ class SendgridMailService:
             self.response["error"] = str(e)
         else:
             try:
-                if res.status_code == 200:
+                if res.status_code in [200, 202]:
                     self.response["delivery_status"] = DeliveryStatus.SUCCESS
                 else:
                     self.response["delivery_status"] = DeliveryStatus.FAILED
